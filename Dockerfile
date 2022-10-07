@@ -16,8 +16,8 @@ WORKDIR /opt/
 # EXPOSE 5000 		
 
 # Run the image as a non-root user
-RUN adduser -D myuser
-USER myuser
+#RUN adduser -D myuser
+#USER myuser
 
 CMD ["/opt/app.py"]
 ENTRYPOINT ["python"]
