@@ -9,7 +9,7 @@ ADD ./requirements/requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
 ENV ODOO_URL=https://www.odoo.com/
-ENV PGADMIN_URL=https://www.pgadmin.org/*
+ENV PGADMIN_URL=https://www.pgadmin.org/
 
 # Add our code
 ADD ./ /opt/ic-webapp
