@@ -19,5 +19,5 @@ WORKDIR /opt/ic-webapp
 RUN adduser -D myuser
 USER myuser
 
-CMD ["/opt/ic-webapp/app.py"]
+CMD ["app.py"]
 ENTRYPOINT ["python"]
