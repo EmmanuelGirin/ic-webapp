@@ -3,7 +3,7 @@ FROM python:3.6-alpine
 
 # Install python and pip
 RUN apk add --no-cache --update python3 py3-pip bash
-ADD ./requirements.txt /tmp/requirements.txt
+ADD ./requirements/requirements.txt /tmp/requirements.txt
 
 # Install dependencies
 RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
