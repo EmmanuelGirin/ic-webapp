@@ -9,7 +9,8 @@ ADD ./requirements/requirements.txt /tmp/requirements.txt
 RUN pip3 install Flask
 
 # Add our code
-ADD ./* /opt/
+ADD ./ /opt/ic-webapp
+WORKDIR /opt/ic-webapp
 
 # Expose is NOT supported by Heroku
 # EXPOSE 5000 		
@@ -17,4 +18,4 @@ ADD ./* /opt/
 # Run the image as a non-root user
 #RUN adduser -D myuser
 #USER myuser
-ENTRYPOINT ["python" , "/opt/app.py”]
+ENTRYPOINT ["python" , "/opt/ic-webapp/app.py”]
