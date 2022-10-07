@@ -9,8 +9,8 @@ ADD ./requirements/requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
 # Add our code
-ADD ./* /opt/ic-webapp/
-WORKDIR /opt/ic-webapp
+ADD ./* /opt/
+WORKDIR /opt/
 
 # Expose is NOT supported by Heroku
 # EXPOSE 5000 		
@@ -19,5 +19,5 @@ WORKDIR /opt/ic-webapp
 RUN adduser -D myuser
 USER myuser
 
-CMD ["app.py"]
+CMD ["/opt/app.py"]
 ENTRYPOINT ["python"]
