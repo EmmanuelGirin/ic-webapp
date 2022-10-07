@@ -3,9 +3,13 @@ FROM python:3.6-alpine
 
 # Install python and pip
 RUN apk add --no-cache --update python3 py3-pip bash
+ADD ./webapp/requirements.txt /tmp/requirements.txt
 
 # Install dependencies
-RUN pip3 install Flask
+RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
+
+ENV ODOO_URL=https://www.odoo.com/
+ENV PGADMIN_URL=https://www.pgadmin.org/*
 
 # Add our code
 ADD ./ /opt/ic-webapp
