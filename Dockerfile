@@ -19,5 +19,5 @@ WORKDIR /opt/
 #RUN adduser -D myuser
 #USER myuser
 
-CMD ["python"]
-ENTRYPOINT ["/opt/app.py"]
+CMD ["/opt/app.py"]
+ENTRYPOINT ["python"]
