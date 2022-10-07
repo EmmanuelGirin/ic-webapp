@@ -18,6 +18,4 @@ WORKDIR /opt/
 # Run the image as a non-root user
 #RUN adduser -D myuser
 #USER myuser
-
-CMD ["/opt/app.py"]
-ENTRYPOINT ["python"]
+ENTRYPOINT ["python" , "app.py”]
