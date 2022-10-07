@@ -12,8 +12,9 @@ ADD ./ /opt/ic-webapp
 WORKDIR /opt/ic-webapp
 
 # Expose is NOT supported by Heroku
-# EXPOSE 5000 		
+EXPOSE 8080
+
 # Run the image as a non-root user
 #RUN adduser -D myuser
 #USER myuser
-ENTRYPOINT ["python" , "/opt/ic-webapp/app.py”]
+ENTRYPOINT ["python" , "app.py"]
