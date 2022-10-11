@@ -19,12 +19,12 @@ COPY ./ /opt/ic-webapp
 COPY ./entrypoint.sh /opt/icwebapp/entrypoint.sh
 RUN chmod +x /opt/icwebapp/entrypoint.sh
 
-WORKDIR /opt/ic-webapp
+WORKDIR /opt/ic-webapp/
 
 
 # Expose Port for Container
 EXPOSE 8080
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
 
 
