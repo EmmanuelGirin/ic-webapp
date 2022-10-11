@@ -12,6 +12,7 @@ pipeline {
      }
      agent none
      stages {
+
        stage('Build image') {
              agent any
              steps {
@@ -46,6 +47,7 @@ pipeline {
                }
             }
        }
+
        stage('Test image') {
            agent any
            steps {
@@ -58,8 +60,6 @@ pipeline {
               }
            }
        }
-    
-
 
       stage('Clean Container') {
           agent any
@@ -87,56 +87,28 @@ pipeline {
              }
           }
         }
+        stage ("PRODUCTION - Deploy odoo") {
+          agent any
+          steps {
+            script {
+              sh '''
+              export ANSIBLE_CONFIG=$(pwd)/sources/ansible-ressources/ansible.cfg
+              ansible-playbook sources/ansible-ressources/playbooks/deploy-pgadmin.yml --vault-password-file vault.key -l pg_admin
+              '''
+           }
+          }
+        }
+        stage ("PRODUCTION - Deploy pgadmin") {
+          agent any
+          steps {
+            script {
+              sh '''
+              export ANSIBLE_CONFIG=$(pwd)/sources/ansible-ressources/ansible.cfg
+              ansible-playbook sources/ansible-ressources/playbooks/deploy-pgadmin.yml --vault-password-file vault.key -l pg_admin
+              '''
+           }
+          }
+        }
+
   }
 } 
-
-stage ("PRODUCTION - Deploy pgadmin") {
-steps {
-script {
-sh '''
-export ANSIBLE_CONFIG=$(pwd)/sources/ansible-ressources/ansible.cfg
-ansible-playbook sources/ansible-ressources/playbooks/deploy-pgadmin.yml --vault-password-file vault.key -l pg_admin
-'''
-}
-}
-}
-stage ("PRODUCTION - Deploy odoo") {
-steps {
-script {
-sh '''
-export ANSIBLE_CONFIG=$(pwd)/sources/ansible-ressources/ansible.cfg
-ansible-playbook sources/ansible-ressources/playbooks/deploy-odoo.yml --vault-password-file vault.key -l odoo
-'''
-}
-}
-}
-
-- pip install pyraider
-- pyraider check -f app/requirements.txt -e json pyraider.json
-
-- pip install bandit
-- bandit -r -f json -o bandit_result.json --exit-zero app/
-
-stage('Scan') {
-      agent any
-            steps {
-                // Install trivy
-                sh 'curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl > html.tpl'
-
-                // Scan all vuln levels
-                sh 'mkdir -p reports'
-                sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --format template --template "@html.tpl" -o reports/nodjs-scan.html ./nodejs'
-                publishHTML target : [
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'reports',
-                    reportFiles: 'nodjs-scan.html',
-                    reportName: 'Trivy Scan',
-                    reportTitles: 'Trivy Scan'
-                ]
-
-                // Scan again and fail on CRITICAL vulns
-                sh 'trivy filesystem --ignore-unfixed --vuln-type os,library --severity CRITICAL ./nodejs'
-            }
-        }
