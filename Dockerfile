@@ -16,10 +16,11 @@ RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
 # Add our code and our script
 COPY ./ /opt/ic-webapp
-#COPY ./entrypoint.sh /opt/icwebapp/entrypoint.sh
+COPY ./entrypoint.sh /opt/icwebapp/entrypoint.sh
+RUN chmod +x /opt/icwebapp/entrypoint.sh
 
 WORKDIR /opt/ic-webapp
-RUN chmod +x entrypoint.sh
+
 
 # Expose Port for Container
 EXPOSE 8080
