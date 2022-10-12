@@ -12,7 +12,13 @@ pipeline {
      }
      agent none
      stages {
-
+       
+       stage('Get Image Version')
+        agent any
+        steps {
+          
+          tempVersion = sh(script: 'awk \'/version/ {sub(/^.* *version/,""); print $2}\' $pwd/ic-webapp/releases.txt', returnStdout: true).trim()
+        }
        stage('Build image') {
              agent any
              steps {
@@ -20,6 +26,7 @@ pipeline {
                   sh '''
                     git clone https://github.com/EmmanuelGirin/ic-webapp/
                     cd ic-webapp
+                    $IMAGE_TAG = $(awk '/version/ {sub(/^.* *version/,""); print $2}' releases.txt)
                     docker build -t ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG .
                     '''
                 }
